@@ -8,5 +8,7 @@ namespace ClothingStore.Infrastructure.Data.Models
         [Required]
         [MaxLength(MaxBrandName)]
         public string Name { get; set; } = string.Empty;
+
+    
     }
 }

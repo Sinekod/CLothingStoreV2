@@ -16,15 +16,22 @@ namespace ClothingStore.Infrastructure.Data.Models
         public int Id { get; set; }
         [ForeignKey(nameof(ColourId))]
         public Colour Colour { get; set; } = null!;
+        [ForeignKey(nameof(ProductId))]
+        public Product Product { get; set; } = null!;
+        public int ProductId { get; set; }
+
 
         public int ColourId { get; set; }
         [Required]
         public byte[] Image { get; set; } = null!;
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal SalePrice { get; set; }
 
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
 
     }

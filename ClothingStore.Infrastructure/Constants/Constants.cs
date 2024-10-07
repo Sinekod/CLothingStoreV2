@@ -31,6 +31,12 @@ namespace ClothingStore.Infrastructure.Constants
            
 
         }
+        public static class ComentConstants
+        {
+            public const int MaxComentLenght = 200;
+
+
+        }
 
 
 

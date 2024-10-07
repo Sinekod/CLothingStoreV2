@@ -8,7 +8,7 @@ public class Colour
     public int Id { get; set; }
     [Required]
     [MaxLength(MaxColourName)]
-    public string Name { get; set; } = string.Empty;  
+    public string Name { get; set; } = string.Empty;
 
-
+ 
 }

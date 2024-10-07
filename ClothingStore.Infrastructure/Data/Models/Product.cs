@@ -28,8 +28,5 @@ namespace ClothingStore.Infrastructure.Data.Models
         public int Rating { get; set; }
 
 
-
-
-
     }
 }
