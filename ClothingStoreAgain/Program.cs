@@ -1,5 +1,5 @@
 
-namespace ClothingStore.Infrastructure.Data;
+using ClothingStore.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
