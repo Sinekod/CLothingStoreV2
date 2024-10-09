@@ -31,7 +31,7 @@ namespace ClothingStore.Infrastructure.Data.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal SalePrice { get; set; }
 
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        
 
 
     }

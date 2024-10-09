@@ -19,8 +19,9 @@ namespace ClothingStore.Infrastructure.Data.Models
         [Required]
         public string Size { get; set; } = string.Empty;
         [Required]
-        public int Quantity { get; set; } 
+        public int Quantity { get; set; }
 
-        
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
     }
 }

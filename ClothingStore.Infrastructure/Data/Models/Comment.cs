@@ -10,9 +10,9 @@ namespace ClothingStore.Infrastructure.Data.Models
         [MaxLength(MaxComentLenght)]
         public string CommentText { get; set; } = string.Empty;
 
-        public int ProductImageId { get; set; }
-        [ForeignKey(nameof(ProductImageId))]
-        public ProductImage ProductImage { get; set; } = null!;
+        public int ProductItemId { get; set; }
+        [ForeignKey(nameof(ProductItemId))]
+        public ProductItem ProductItem { get; set; } = null!;
 
 
     }

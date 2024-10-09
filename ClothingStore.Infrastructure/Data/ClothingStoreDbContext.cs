@@ -1,4 +1,5 @@
 ﻿using ClothingStore.Infrastructure.Data.Models;
+using ClothingStore.Infrastructure.Data.SeededDb;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,25 @@ namespace ClothingStore.Infrastructure.Data
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new BrandConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new ColourConfiguration());
+            builder.ApplyConfiguration(new CommentConfiguration());
+            builder.ApplyConfiguration(new DeliveryToAddressConfiguration());
+            builder.ApplyConfiguration(new GenderConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
+            builder.ApplyConfiguration(new ProductImageConfiguration());
+            builder.ApplyConfiguration(new ProductItemConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+
+
+            base.OnModelCreating(builder);
+        }
+
 
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
