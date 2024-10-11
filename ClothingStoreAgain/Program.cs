@@ -1,5 +1,8 @@
 
+using ClothingStore.Core.Contracts;
+using ClothingStore.Core.Services;
 using ClothingStore.Infrastructure.Data;
+using ClothingStore.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +29,7 @@ namespace ClothingStoreAgain
             })
                 .AddEntityFrameworkStores<ClothingStoreDbContext>();
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<IServiceProducts, ProductService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

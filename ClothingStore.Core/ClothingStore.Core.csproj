@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Constants\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClothingStore.Infrastructure\ClothingStore.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
