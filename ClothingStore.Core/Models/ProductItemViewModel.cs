@@ -13,7 +13,7 @@
 
         public decimal Price  { get; set; }
 
-        public IEnumerable<string> Sizes { get; set; } = new List<string>();
+        public IEnumerable<SizeViewModel> Sizes { get; set; } = new List<SizeViewModel>();
 
         public IEnumerable<ColourViewModel> Colours { get; set; } = new List<ColourViewModel>();
 

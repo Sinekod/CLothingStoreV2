@@ -15,7 +15,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
         {
             var data = new SeededDb();
 
-            builder.HasData(new Product[] { data.Product1, data.Product2, data.Product3 });
+            builder.HasData(new Product[] { data.Product4, data.Product2, data.Product3,data.Product5 });
 
 
         }

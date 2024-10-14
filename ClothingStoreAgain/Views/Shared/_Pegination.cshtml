@@ -1,0 +1,81 @@
+﻿@model PeginationModel
+
+<!-- Pagination Controls -->
+@if (Model.IsFiltered == false)
+{
+    <div class="pagination-controls">
+        @if (Model.HasPreviousPage)
+        {
+            <a asp-controller="Product" asp-action="ShowAllProductsById" asp-route-page="@(Model.PageIndex-Int128.One)" class="page-link" data-page="@Model.PageIndex - 1">Previous</a>
+        }
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <a asp-controller="Product" asp-action="ShowAllProductsById" asp-route-page="@i" class="page-link @(Model.PageIndex == i ? "active" : "")">
+                @i
+            </a>
+        }
+
+        @if (Model.HasNextPage)
+        {
+            <a asp-controller="Product" asp-action="ShowAllProductsById" asp-route-page="@(Model.PageIndex+Int128.One)" class="page-link" data-page="@Model.PageIndex + 1">Next</a>
+        }
+    </div>
+    <script>
+        $(document).on('click', '.page-link', function (e) {
+            e.preventDefault();
+            const page = $(this).data('page');
+
+            $.ajax({
+                url: '@Url.Action("ShowAllProductsById", "Product")',
+                data: { page: page },
+                success: function (result) {
+                    $('#product-container').html(result);
+                },
+                error: function () {
+                    alert("An error occurred while loading the products.");
+                }
+            });
+        });
+    </script>
+
+}
+else
+{
+    <div class="pagination-controls">
+        @if (Model.HasPreviousPage)
+        {
+            <a asp-controller="Product" asp-action="ApplyDetails" asp-route-page="@(Model.PageIndex-Int128.One)" class="page-link" data-page="@Model.PageIndex - 1">Previous</a>
+        }
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <a asp-controller="Product" asp-action="ApplyDetails" asp-route-page="@i" class="page-link @(Model.PageIndex == i ? "active" : "")">
+                @i
+            </a>
+        }
+
+        @if (Model.HasNextPage)
+        {
+            <a asp-controller="Product" asp-action="ApplyDetails" asp-route-page="@(Model.PageIndex+Int128.One)" class="page-link" data-page="@Model.PageIndex + 1">Next</a>
+        }
+    </div>
+    <script>
+        $(document).on('click', '.page-link', function (e) {
+            e.preventDefault();
+            const page = $(this).data('page');
+
+            $.ajax({
+                url: '@Url.Action("ApplyDetails", "Product")',
+                data: { page: page },
+                success: function (result) {
+                    $('#product-container').html(result);
+                },
+                error: function () {
+                    alert("An error occurred while loading the products.");
+                }
+            });
+        });
+    </script>
+}
+    

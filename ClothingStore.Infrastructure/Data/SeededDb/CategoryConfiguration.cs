@@ -10,7 +10,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
         {
             var data = new SeededDb();
 
-            builder.HasData(new Category[] {data.Pants,data.Shoes,data.Socks });
+            builder.HasData(new Category[] {data.tracksuit,data.Shoes,data.Socks,data.Jacket });
         }
     }
 }

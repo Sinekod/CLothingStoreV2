@@ -10,7 +10,7 @@ namespace ClothingStore.Core.Contracts
 {
     public interface IServiceProducts
     {
-        public Task<List<ProductImageViewModel>> GetAllProductsAsync();
+        public Task<IEnumerable<ProductImageViewModel>> GetAllProductsAsync();
 
         public Task<ProductItemViewModel> ShowDetails(int id);
 
@@ -19,12 +19,16 @@ namespace ClothingStore.Core.Contracts
         public Task<IEnumerable<ColourViewModel>> GetAllColoursForProduct(int id);
 
 
-        public Task<IEnumerable<string>> GetAllSizesForProduct(int id);
+        public Task<IEnumerable<SizeViewModel>> GetAllSizesForProduct(int id);
 
-        public Task<List<ProductImageViewModel>> GetAllProductGenders(int genderId);       
+        public Task<IEnumerable<ProductImageViewModel>> GetAllProductGenders(int? genderId);
 
 
+        public Task<FilterCriteria> GetAllAvailableCriteriaForProducts(int genderId);
 
+        public Task<List<ProductImageViewModel>> FilteredProducts(int? genderId,FilterCriteria? filter);
+
+        //public Task<PeginationModel<ProductImageViewModel>> Pegination(int genderId, int page, int pageSize);
 
 
     }

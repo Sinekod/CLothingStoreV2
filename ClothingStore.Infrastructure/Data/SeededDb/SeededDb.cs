@@ -1,5 +1,7 @@
-﻿using ClothingStore.Infrastructure.Data.Models;
+﻿using Azure.Core.Pipeline;
+using ClothingStore.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using static ClothingStore.Infrastructure.Data.ImageConverter.ImageConverter;
 
 namespace ClothingStore.Infrastructure.Data.SeededDb
@@ -9,6 +11,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
         public SeededDb()
         {
+            SeedSizes(); // Seed sizes first, before any method that uses size
             SeedUsers();
             SeedBrands();
             SeedColours();
@@ -16,21 +19,28 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             SeedCategories();
             SeedProducts();
             SeedProductPictures();
-            SeedProductItems();
+            SeedProductItems(); // Now, this can safely access size data
             SeedComment();
             SeedOrers();
             DeliveryToAddress();
-
         }
 
 
+        public Size S { get; set; }
 
+        public Size M { get; set; }
+
+        public Size L { get; set; }
+
+        public Size ShoeSize { get; set; }
+
+        public Size SockSize { get; set; }
         public IdentityUser User { get; set; }
         public Brand Nike { get; set; }
         public Brand Flair { get; set; }
         public Brand Adidas { get; set; }
-
-        public Category Pants { get; set; }
+        public Category Jacket { get; set; }
+        public Category tracksuit { get; set; }
 
         public Category Socks { get; set; }
 
@@ -54,12 +64,12 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
         public Gender Female { get; set; }
 
-        public Gender Bisexual { get; set; }
-
         public Order Order1 { get; set; }
 
-        public Product Product1 { get; set; }
 
+        public Product Product4 { get; set; }
+
+        public Product Product5 { get; set; }
         public Product Product2 { get; set; }
 
         public Product Product3 { get; set; }
@@ -70,11 +80,15 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
         public ProductImage ProductImage3 { get; set; }
 
+        public ProductImage ProductImage4 { get; set; }
+
         public ProductItem ProductItem1 { get; set; }
 
         public ProductItem ProductItem2 { get; set; }
 
         public ProductItem ProductItem3 { get; set; }
+
+        public ProductItem ProductItem4 { get; set; }
 
         private void SeedUsers()
         {
@@ -128,7 +142,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             Red = new Colour()
             {
                 Id = 3,
-                Name = "red"
+                Name = "Red"
 
 
             };
@@ -147,20 +161,16 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 Id = 2,
                 Name = "Female"
             };
-            Bisexual = new Gender()
-            {
-                Id = 3,
-                Name = "Bisexual"
-            };
+
 
         }
         private void SeedCategories()
         {
-            Pants = new Category()
+            tracksuit = new Category()
             {
                 Id = 1,
-                CategoryName = "Pants",
-                GenderId = Bisexual.Id,
+                CategoryName = "tracksuit",
+                GenderId = Male.Id,
 
             };
             Shoes = new Category()
@@ -177,18 +187,25 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 GenderId = Female.Id,
 
             };
+            Jacket = new Category()
+            {
+                Id = 4,
+                CategoryName = "Jacket",
+                GenderId = Female.Id,
+
+            };
 
 
 
         }
         private void SeedProducts()
         {
-            Product1 = new Product()
+            Product4 = new Product()
             {
                 Id = 1,
                 Name = "FlairAncung",
                 Description = "Very good for something",
-                CategoryId = Pants.Id,
+                CategoryId = tracksuit.Id,
                 Rating = 3,
                 BrandId = Flair.Id,
 
@@ -206,7 +223,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             Product3 = new Product()
             {
                 Id = 3,
-                Name = "Product3",
+                Name = "NikeSocks",
                 Description = "Very bad for something else",
                 CategoryId = Socks.Id,
                 Rating = 4,
@@ -214,7 +231,17 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
 
             };
+            Product5 = new Product
+            {
+                Id = 4,
+                Name = "Adidas Jacket",
+                Description = "Very bad for summer",
+                CategoryId = Jacket.Id,
+                Rating = 5,
+                BrandId = Adidas.Id,
 
+
+            };
         }
         private void SeedProductPictures()
         {
@@ -222,7 +249,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             {
                 Id = 1,
                 ColourId = Black.Id,
-                ProductId = 1,
+                ProductId = Product4.Id,
                 Image = ImageToByteArray("C:\\Users\\Acer\\source\\repos\\ClothingStoreAgain\\ClothingStoreAgain\\wwwroot\\Photos\\FlairAncung.jpg"),
                 Price = 120,
                 SalePrice = 90,
@@ -246,6 +273,15 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 Price = 20,
 
             };
+            ProductImage4 = new ProductImage()
+            {
+                Id = 4,
+                ColourId = Black.Id,
+                ProductId = Product5.Id,
+                Image = ImageToByteArray("C:\\Users\\Acer\\source\\repos\\ClothingStoreAgain\\ClothingStoreAgain\\wwwroot\\Photos\\Addidas Jacket.jpg"),
+                Price = 75
+            };
+
 
         }
 
@@ -254,8 +290,8 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             ProductItem1 = new ProductItem()
             {
                 Id = 1,
-                ProductImageId = 1,
-                Size = "L",
+                ProductImageId = ProductImage1.Id,
+                SizeId = L.Id,
                 Quantity = 50
 
             };
@@ -263,7 +299,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             {
                 Id = 2,
                 ProductImageId = 2,
-                Size = "42",
+                SizeId = ShoeSize.Id,
                 Quantity = 30
 
             };
@@ -271,11 +307,20 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             {
                 Id = 3,
                 ProductImageId = 3,
-                Size = "40",
+                SizeId = SockSize.Id,
                 Quantity = 70
 
             };
 
+
+            ProductItem4 = new ProductItem()
+            {
+                Id =4,
+                ProductImageId = ProductImage4.Id,
+                SizeId = M.Id,
+                Quantity = 80
+
+            };
         }
         private void SeedComment()
         {
@@ -283,7 +328,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             {
                 Id = 1,
                 CommentText = "I liked it very much",
-                ProductItemId = 1,
+                ProductItemId = ProductItem1.Id,
             };
             Comment2 = new Comment()
             {
@@ -330,6 +375,45 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
         }
 
+
+        private void SeedSizes()
+        {
+            L = new Size()
+            {
+                Id = 1,
+                Name = "L"
+
+            };
+            M = new Size()
+            {
+                Id = 2,
+                Name = "M"
+
+            };
+            S = new Size()
+            {
+                Id = 3,
+                Name = "S"
+
+            };
+
+            ShoeSize = new Size()
+            {
+                Id = 4,
+                Name = "42"
+
+
+            };
+            SockSize = new Size()
+            {
+                Id = 5,
+                Name = "44"
+
+            };
+
+
+
+        }
 
     }
 }

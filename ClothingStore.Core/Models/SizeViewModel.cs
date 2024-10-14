@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClothingStore.Core.Models
 {
-    public class ColourViewModel
+    public class SizeViewModel
     {
         public int Id { get; set; }
 
         public string? Name { get; set; } = string.Empty;
-
 
     }
 }

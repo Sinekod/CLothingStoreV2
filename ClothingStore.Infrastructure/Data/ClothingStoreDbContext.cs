@@ -26,7 +26,7 @@ namespace ClothingStore.Infrastructure.Data
             builder.ApplyConfiguration(new ProductImageConfiguration());
             builder.ApplyConfiguration(new ProductItemConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
-
+            builder.ApplyConfiguration(new SizeConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -42,6 +42,12 @@ namespace ClothingStore.Infrastructure.Data
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<ProductItem> ProductItems { get; set; }
+
+        public virtual DbSet<Size> Sizes { get; set; }
+
+
+
+
 
     }
 }

@@ -20,6 +20,7 @@ namespace ClothingStore.Core.Models
         public string ImageString { get; set; } = string.Empty;
 
         public int GenderId { get; set; }
+       
 
 
     }

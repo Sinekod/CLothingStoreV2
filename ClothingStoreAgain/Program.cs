@@ -30,6 +30,15 @@ namespace ClothingStoreAgain
                 .AddEntityFrameworkStores<ClothingStoreDbContext>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IServiceProducts, ProductService>();
+            builder.Services.AddDistributedMemoryCache();
+
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "GenderId";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -50,6 +59,7 @@ namespace ClothingStoreAgain
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

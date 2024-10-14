@@ -16,7 +16,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
         {
             var data = new SeededDb();
 
-            builder.HasData(new ProductImage[] { data.ProductImage1,data.ProductImage2,data.ProductImage3 }); ;
+            builder.HasData(new ProductImage[] { data.ProductImage1,data.ProductImage2,data.ProductImage3,data.ProductImage4 }); ;
 
         }
     }

@@ -1,10 +1,13 @@
 ﻿using ClothingStore.Core.Contracts;
 using ClothingStore.Core.Models;
 using ClothingStore.Infrastructure.Data;
+using ClothingStore.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +25,62 @@ namespace ClothingStore.Core.Services
         public async Task<bool> CheckProductExist(int id) =>
             await context.ProductImages.AnyAsync(x => x.Id == id);
 
+        public async Task<FilterCriteria> GetAllAvailableCriteriaForProducts(int genderId)
+        {
+
+            var availableCategories = await context.Categories.Where(p => p.GenderId == genderId)
+            .Select(p => new CategoryViewModel()
+            {
+                Id = p.Id,
+                Name = p.CategoryName
+
+
+            }).Distinct().AsNoTracking().ToListAsync();
+
+            var availableBrands = await context.Products.Where(p => p.Category.GenderId == genderId)
+            .Select(p => new BrandViewModel()
+            {
+                Id = p.BrandId,
+                Name = p.Brand.Name
+
+
+            }).Distinct().AsNoTracking().ToListAsync();
+
+
+            var availableColours = await context.ProductImages
+                .Where(p => p.Product.Category.GenderId == genderId
+                )
+                .Select(p => new ColourViewModel()
+                {
+                    Id = p.ColourId,
+                    Name = p.Colour.Name,
+
+
+                }).ToListAsync();
+
+            var sizes = await context.ProductItems
+                .Where(p => p.ProductImage.Product.Category.GenderId == genderId)
+                .Select(p => new SizeViewModel()
+                {
+                    Id = p.SizeId,
+                    Name = p.Size.Name,
+
+
+                }).ToListAsync();
+
+            FilterCriteria filterCriteria = new FilterCriteria()
+            {
+                AvailableCategories = availableCategories,
+                AvailableBrands = availableBrands,
+                AvailableColors = availableColours,
+                AvailableSizesForClothes = FilterClothingSizes(sizes),
+                AvailableSizesForShoes = FilterShoeSizes(sizes)
+
+            };
+
+            return filterCriteria;
+
+        }
 
         public async Task<IEnumerable<ColourViewModel>> GetAllColoursForProduct(int id)
         {
@@ -35,16 +94,16 @@ namespace ClothingStore.Core.Services
              }).ToListAsync();
         }
 
-        public async Task<List<ProductImageViewModel>> GetAllProductGenders(int genderId)
+        public async Task<IEnumerable<ProductImageViewModel>> GetAllProductGenders(int? genderId)
         {
             var products = await GetAllProductsAsync();
 
-            return products.Where(p => p.GenderId != genderId).ToList();
+            return products.Where(p => p.GenderId == genderId).ToList();
 
 
         }
 
-        public async Task<List<ProductImageViewModel>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductImageViewModel>> GetAllProductsAsync()
         {
             return await context.ProductImages.Select(p => new ProductImageViewModel
             {
@@ -58,13 +117,22 @@ namespace ClothingStore.Core.Services
             }).ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetAllSizesForProduct(int id) =>
-            await context.ProductItems.AsNoTracking().Where(p => p.Id == id).Select(p => p.Size).ToListAsync();
+        public async Task<IEnumerable<SizeViewModel>> GetAllSizesForProduct(int id)
+        {
+            return await context.ProductItems.Where(p => p.Id == id).Select(p => new SizeViewModel()
+            {
+                Id = p.SizeId,
+                Name = p.Size.Name,
+
+            }).ToListAsync();
+
+        }
+
 
         public async Task<ProductItemViewModel> ShowDetails(int id)
         {
             IEnumerable<ColourViewModel> colours = await GetAllColoursForProduct(id);
-            IEnumerable<string> sizes = await GetAllSizesForProduct(id);
+            IEnumerable<SizeViewModel> sizes = await GetAllSizesForProduct(id);
 
             var product = await context.ProductItems.Where(p => p.Id == id).Select(p => new ProductItemViewModel
             {
@@ -84,11 +152,98 @@ namespace ClothingStore.Core.Services
             return product;
 
         }
+        private IEnumerable<SizeViewModel> FilterShoeSizes(IEnumerable<SizeViewModel> sizes)
+        {
+            var shoeSizes = new List<SizeViewModel>();
+            foreach (var size in sizes)
+            {
+                int a;
+                if (int.TryParse(size.Name, out a))
+                {
+                    shoeSizes.Add(size);
+                }
+
+            }
+            return shoeSizes;
+
+        }
+        private IEnumerable<SizeViewModel> FilterClothingSizes(IEnumerable<SizeViewModel> sizes)
+        {
+            var clothSizes = new List<SizeViewModel>();
+            foreach (var size in sizes)
+            {
+                int a;
+                if (!int.TryParse(size.Name, out a))
+                {
+                    clothSizes.Add(size);
+                }
+
+            }
+            return clothSizes;
+
+        }
+
+
+        public async Task<List<ProductImageViewModel>> FilteredProducts(int? genderId, FilterCriteria? filter)
+        {
+
+            var products = context.ProductItems.Include(x => x.ProductImage)
+                .Include(p => p.ProductImage.Product).Where(p => p.ProductImage.Product.Category.GenderId == genderId).ToList();
 
 
 
+            if (!string.IsNullOrEmpty(filter.Color.ToString()))
+            {
+                products = products.Where(p => p.ProductImage.ColourId == filter.Color).ToList();
+
+            }
+            if (!string.IsNullOrEmpty(filter.Category.ToString()))
+            {
+                ;
+                products = products.Where(p => p.ProductImage.Product.CategoryId == filter.Category).ToList();
+
+            }
+            if (!string.IsNullOrEmpty(filter.Brand.ToString()))
+            {
+                products = products.Where(p => p.ProductImage.Product.BrandId == filter.Brand).ToList();
+            }
+            if (!string.IsNullOrEmpty(filter.Size.ToString()))
+            {
+                products = products.Where(p => p.SizeId == filter.Size).ToList();
+            }
+            if (!string.IsNullOrEmpty(filter.ShoeSize.ToString()))
+            {
+                products = products.Where(p => p.SizeId == filter.Size).ToList();
+            }
+
+            var ids = new List<int>();
+            products.ForEach(i => ids.Add(i.Id));
+            var imageProducts = await context.ProductImages.Where(p => ids.Contains(p.Id)).Select(p => new ProductImageViewModel()
+            {
+                Id = p.Id,
+                Name = p.Product.Name,
+                Category = p.Product.Category.CategoryName,
+                Price = p.Price,
+                Image = p.Image,
+                GenderId = p.Product.Category.GenderId,
+
+            }).ToListAsync();
+
+            return imageProducts;
 
 
+        }
 
+        //public async Task<PeginationModel<ProductImageViewModel>> Pegination(int genderId, int page, int pageSize)
+        //{
+        //    page = 1;
+        //    pageSize = 1;
+        //    var products = await GetAllProductGenders(genderId);
+        //    int count = products.Count();
+        //    products =  products.Skip((page - 1) * pageSize) .Take(pageSize).ToList();
+        //    var paginatedList = new PeginationModel<ProductImageViewModel>(products, count, page, pageSize);
+
+        //    return paginatedList;
+        //}
     }
 }

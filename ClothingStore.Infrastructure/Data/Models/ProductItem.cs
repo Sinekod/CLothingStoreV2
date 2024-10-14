@@ -16,8 +16,10 @@ namespace ClothingStore.Infrastructure.Data.Models
         public ProductImage ProductImage { get; set; } = null!;
 
         public int ProductImageId { get; set; }
-        [Required]
-        public string Size { get; set; } = string.Empty;
+        public int SizeId { get; set; }   
+        [ForeignKey(nameof(SizeId))]
+        public Size Size { get; set; } = null!;
+        
         [Required]
         public int Quantity { get; set; }
 

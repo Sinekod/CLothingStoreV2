@@ -9,15 +9,13 @@ using System.Threading.Tasks;
 
 namespace ClothingStore.Infrastructure.Data.SeededDb
 {
-
-    public class GenderConfiguration : IEntityTypeConfiguration<Gender>
+    public class SizeConfiguration : IEntityTypeConfiguration<Size>
     {
-        public void Configure(EntityTypeBuilder<Gender> builder)
+        public void Configure(EntityTypeBuilder<Size> builder)
         {
             var data = new SeededDb();
 
-            builder.HasData(new Gender[] {data.Female,data.Male } );
-
+            builder.HasData(new Size[] {data.S,data.L,data.M,data.SockSize,data.ShoeSize });
 
         }
     }
