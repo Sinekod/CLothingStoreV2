@@ -21,10 +21,10 @@ namespace ClothingStore.Core.Contracts
 
         public Task<IEnumerable<string>> GetAllSizesForProduct(int id);
 
-        public Task<List<ProductImageViewModel>> GetAllProductGenders(int genderId);       
+        public Task<List<ProductImageViewModel>> GetAllProductGenders(int genderId);
 
 
-
+        public Task<FilterCriteria> GetAllAvailableCriteriaForProducts(int genderId);
 
 
     }

@@ -1,0 +1,73 @@
+﻿@model FilterCriteria
+
+<form method="get" asp-action="ProductList" asp-controller="Product" class="filter-menu p-3 mb-4 rounded shadow-sm bg-light">
+    <div class="filter-menu p-3 mb-4 rounded shadow-sm bg-light">
+        <h5 class="mb-3">Filter Products</h5>
+
+        <!-- Category Dropdown -->
+        <div class="mb-3">
+            <label for="categorySelect" class="form-label">Category</label>
+            <select id="categorySelect" name="Category" class="form-select" asp-for="Category">
+                <option value="">All Categories</option>
+                @foreach (var category in Model.AvailableCategories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Brand Dropdown -->
+        <div class="mb-3">
+            <label for="brandSelect" class="form-label">Brand</label>
+            <select id="brandSelect" name="Brand" class="form-select" asp-for="Brand">
+                <option value="">All Brands</option>
+                @foreach (var brand in Model.AvailableBrands)
+                {
+                    <option value="@brand.Id">@brand.Name</option>
+                }
+            </select>
+        </div>
+
+        @* <!-- Size Dropdown -->
+        <div class="mb-3">
+            <label for="sizeSelect" class="form-label">Size</label>
+            <select id="sizeSelect" name="Size" class="form-select" asp-for="Size">
+                <option value="">All Sizes</option>
+                @foreach (var size in Model.AvailableSizesForClothes)
+                {
+                    <option value="@size">@size.ToString()</option>
+                }
+            </select>
+        </div>
+
+
+        <!-- Size Dropdown -->
+        <div class="mb-3">
+            <label for="sizeSelect" class="form-label">Size</label>
+            <select id="sizeSelect" name="Size" class="form-select" asp-for="Size">
+                <option value="">All Sizes</option>
+                @foreach (var size in Model.AvailableSizesForShoes)
+                {
+                    <option value="@size">@size</option>
+                }
+            </select>
+        </div> *@
+
+        <!-- Color Dropdown -->
+        <div class="mb-3">
+            <label for="colorSelect" class="form-label">Color</label>
+            <select id="colorSelect" name="Color" class="form-select" asp-for="Color">
+                <option value="">All Colors</option>
+                @foreach (var color in Model.AvailableColors)
+                {
+                    <option value="@color">@color.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Filter Button -->
+        <button type="submit" class="btn btn-primary w-100 mt-3">
+            Apply Filters
+        </button>
+    </div>
+</form>

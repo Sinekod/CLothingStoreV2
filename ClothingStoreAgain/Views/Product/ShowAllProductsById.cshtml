@@ -1,4 +1,12 @@
-﻿@model List<ProductImageViewModel> 
+﻿@model List<ProductImageViewModel>
+@inject IServiceProducts products;
+
+@{
+    int id = Model.First(g => g.GenderId != 3).GenderId;
+    var filterCriteria = await products.GetAllAvailableCriteriaForProducts(id);
+
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +21,18 @@
             transition: transform 0.2s; /* Smooth scaling */
         }
 
-        .image-card:hover {
-            transform: scale(1.05); /* Scale up on hover */
-        }
+            .image-card:hover {
+                transform: scale(1.05); /* Scale up on hover */
+            }
     </style>
+
 </head>
 <body>
+
+    <div class="col-md-3">
+        <!-- Render the filter menu partial view -->
+        @await Html.PartialAsync("_FilterMenu", filterCriteria)
+    </div>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Product Gallery</h1>
         <div class="row">

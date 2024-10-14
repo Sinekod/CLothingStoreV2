@@ -22,6 +22,49 @@ namespace ClothingStore.Core.Services
         public async Task<bool> CheckProductExist(int id) =>
             await context.ProductImages.AnyAsync(x => x.Id == id);
 
+        public async Task<FilterCriteria> GetAllAvailableCriteriaForProducts(int genderId)
+        {
+
+            var availableCategories = await context.Categories.Where(p => p.GenderId == genderId||p.GenderId==3)
+            .Select(p => new CategoryViewModel()
+            {
+                Id = p.Id,
+                Name = p.CategoryName
+
+
+            }).Distinct().AsNoTracking().ToListAsync();
+
+            var availableBrands = await context.Products.Where(p => p.Category.GenderId == genderId||p.Category.GenderId==3)
+            .Select(p => new BrandViewModel()
+            {
+                Id = p.Id,
+                Name = p.Brand.Name
+
+
+            }).Distinct().AsNoTracking().ToListAsync();
+
+            
+            var availableColours = await context.ProductImages
+                .Where(p => p.Product.Category.GenderId == genderId || p.Product.Category.GenderId == 3)
+                .Select(p => new ColourViewModel()
+                {
+                    Id = p.Id,
+                    Name = p.Colour.Name,
+
+
+                }).ToListAsync();
+            FilterCriteria filterCriteria = new FilterCriteria()
+            {
+                AvailableCategories = availableCategories,
+                AvailableBrands = availableBrands,
+                AvailableColors = availableColours,
+               
+
+            };
+
+            return filterCriteria;
+
+        }
 
         public async Task<IEnumerable<ColourViewModel>> GetAllColoursForProduct(int id)
         {
