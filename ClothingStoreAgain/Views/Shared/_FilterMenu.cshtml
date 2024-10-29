@@ -1,4 +1,4 @@
-﻿ @model FilterCriteria
+﻿@model FilterCriteria
 
 <!-- Filter Form -->
 <form id="filterForm" method="post" asp-controller="Product" asp-action="ApplyDetails" class="filter-sidebar bg-light p-4 rounded shadow-sm mb-4">
@@ -7,80 +7,81 @@
     <!-- Hidden input for RealFiltration -->
     <input type="hidden" id="RealFiltration" name="RealFiltration" value="false" asp-for="RealFiltration" />
 
-    <!-- Category Dropdown -->
-    <div class="mb-3">
+        <!-- Category Dropdown -->
+        <div class="mb-3">
         <label for="categorySelect" class="form-label">
             <i class="bi bi-tag"></i> Category
         </label>
-        <select id="categorySelect" name="Category" class="form-select" asp-for="Category">
-            <option value="">All Categories</option>
-            @foreach (var category in Model.AvailableCategories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-    </div>
+            <select id="categorySelect" name="Category" class="form-select" asp-for="Category">
+                <option value="">All Categories</option>
+                @foreach (var category in Model.AvailableCategories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
 
-    <!-- Brand Dropdown -->
-    <div class="mb-3">
+        <!-- Brand Dropdown -->
+        <div class="mb-3">
         <label for="brandSelect" class="form-label">
             <i class="bi bi-shop"></i> Brand
         </label>
-        <select id="brandSelect" name="Brand" class="form-select" asp-for="Brand">
-            <option value="">All Brands</option>
-            @foreach (var brand in Model.AvailableBrands)
-            {
-                <option value="@brand.Id">@brand.Name</option>
-            }
-        </select>
-    </div>
+            <select id="brandSelect" name="Brand" class="form-select" asp-for="Brand">
+                <option value="">All Brands</option>
+                @foreach (var brand in Model.AvailableBrands)
+                {
+                    <option value="@brand.Id">@brand.Name</option>
+                }
+            </select>
+        </div>
 
     <!-- Size Dropdown for Clothes -->
-    <div class="mb-3">
+        <div class="mb-3">
         <label for="clothingSizeSelect" class="form-label">
             <i class="bi bi-arrows-angle-expand"></i> Clothing Size
         </label>
         <select id="clothingSizeSelect" name="Size" class="form-select" asp-for="Size">
-            <option value="">All Sizes</option>
-            @foreach (var size in Model.AvailableSizesForClothes)
-            {
+                <option value="">All Sizes</option>
+                @foreach (var size in Model.AvailableSizesForClothes)
+                {
                 <option value="@size.Id">@size.Name</option>
-            }
-        </select>
-    </div>
+                }
+            </select>
+        </div>
 
     <!-- Size Dropdown for Shoes -->
-    <div class="mb-3">
+        <div class="mb-3">
         <label for="shoeSizeSelect" class="form-label">
             <i class="bi bi-bounding-box"></i> Shoe Size
         </label>
         <select id="shoeSizeSelect" name="ShoeSize" class="form-select" asp-for="ShoeSize" disabled>
-            <option value="">All Sizes</option>
-            @foreach (var size in Model.AvailableSizesForShoes)
-            {
+                <option value="">All Sizes</option>
+                @foreach (var size in Model.AvailableSizesForShoes)
+                {
                 <option value="@size.Id">@size.Name</option>
-            }
-        </select>
+                }
+            </select>
     </div>
 
-    <!-- Color Dropdown -->
-    <div class="mb-3">
+        <!-- Color Dropdown -->
+        <div class="mb-3">
         <label for="colorSelect" class="form-label">
             <i class="bi bi-palette"></i> Color
         </label>
-        <select id="colorSelect" name="Color" class="form-select" asp-for="Color">
-            <option value="">All Colors</option>
-            @foreach (var color in Model.AvailableColors)
-            {
+            <select id="colorSelect" name="Color" class="form-select" asp-for="Color">
+                <option value="">All Colors</option>
+                @foreach (var color in Model.AvailableColors)
+                {
                 <option value="@color.Id">@color.Name</option>
-            }
-        </select>
-    </div>
+                }
+            </select>
+        </div>
 
-    <!-- Filter Button -->
+        <!-- Filter Button -->
     <button type="submit" class="btn btn-primary w-100 mt-3" id="apply-filters">
         <i class="bi bi-funnel-fill"></i> Apply Filters
-    </button>
+        </button>
+    </div>
 </form>
 
 <!-- Include Bootstrap Icons -->
