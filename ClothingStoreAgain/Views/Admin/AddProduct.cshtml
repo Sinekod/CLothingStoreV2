@@ -1,0 +1,126 @@
+﻿@model ProductAddForm
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Add New Product</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" asp-action="AddProduct">
+                        @* Product Name *@
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        @* Description *@
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        @* Gender Dropdown *@
+                        <div class="mb-3">
+                            <label asp-for="Genders" class="form-label">Gender</label>
+                            <select asp-for="GenderId" class="form-select">
+                                <option value="">Select Gender</option>
+                                @foreach (var gender in Model.Genders)
+                                {
+                                    <option value="@gender.Id">@gender.GenderName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="GenderId" class="text-danger"></span>
+                        </div>
+
+                        @* Category Dropdown *@
+                        <div class="mb-3">
+                            <label asp-for="Categories" class="form-label">Category</label>
+                            <select asp-for="CategoryName" class="form-select">
+                                <option value="">Select Category</option>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Name">@category.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        </div>
+
+                        @* Brand Dropdown *@
+                        <div class="mb-3">
+                            <label asp-for="Brands" class="form-label">Brand</label>
+                            <select asp-for="BrandId" class="form-select">
+                                <option value="">Select Brand</option>
+                                @foreach (var brand in Model.Brands)
+                                {
+                                    <option value="@brand.Id">@brand.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="BrandId" class="text-danger"></span>
+                        </div>
+
+                        @* Colour Dropdown *@
+                        <div class="mb-3">
+                            <label asp-for="Colours" class="form-label">Colour</label>
+                            <select asp-for="ColourId" class="form-select">
+                                <option value="">Select Colour</option>
+                                @foreach (var colour in Model.Colours)
+                                {
+                                    <option value="@colour.Id">@colour.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="ColourId" class="text-danger"></span>
+                        </div>
+
+                        @* Price *@
+                        <div class="mb-3">
+                            <label asp-for="Price" class="form-label"></label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        @* Size *@
+                        <div class="mb-3">
+                            <label asp-for="Size" class="form-label"></label>
+                            <input asp-for="Size" class="form-control" />
+                            <span asp-validation-for="Size" class="text-danger"></span>
+                        </div>
+
+                        @* Quantity *@
+                        <div class="mb-3">
+                            <label asp-for="Quantity" class="form-label"></label>
+                            <input asp-for="Quantity" class="form-control" />
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+
+                        @* Image Upload *@
+                        <div class="mb-3">
+                            <label asp-for="Image" class="form-label">Upload Product Image</label>
+                            <input asp-for="Image" class="form-control" type="file" name="image" accept="image/*" />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+
+                        </div>
+
+                        @* Submit Button *@
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

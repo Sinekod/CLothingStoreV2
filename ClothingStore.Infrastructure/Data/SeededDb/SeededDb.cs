@@ -1,5 +1,6 @@
 ﻿using Azure.Core.Pipeline;
 using ClothingStore.Infrastructure.Data.Models;
+using ClothingStoreAgain.Data.Migrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using static ClothingStore.Infrastructure.Data.ImageConverter.ImageConverter;
@@ -11,20 +12,26 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
         public SeededDb()
         {
-            SeedSizes(); // Seed sizes first, before any method that uses size
+            SeedSizes();
             SeedUsers();
+            
             SeedBrands();
             SeedColours();
             SeedGender();
             SeedCategories();
             SeedProducts();
             SeedProductPictures();
-            SeedProductItems(); // Now, this can safely access size data
+            SeedProductItems();
             SeedComment();
             SeedOrers();
             DeliveryToAddress();
         }
 
+        public IdentityRole Admin { get; set; }
+
+        public IdentityRole User { get; set; }
+
+        public IdentityUserRole<string> IdentityUserRole { get; set; }
 
         public Size S { get; set; }
 
@@ -35,7 +42,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
         public Size ShoeSize { get; set; }
 
         public Size SockSize { get; set; }
-        public IdentityUser User { get; set; }
+        public IdentityUser Pesho { get; set; }
         public Brand Nike { get; set; }
         public Brand Flair { get; set; }
         public Brand Adidas { get; set; }
@@ -93,7 +100,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
         private void SeedUsers()
         {
             var hasher = new PasswordHasher<IdentityUser>();
-            User = new IdentityUser()
+            Pesho = new IdentityUser()
             {
                 Id = "e484920a-cb22-45bf-9ace-843a04361194",
                 UserName = "Pesho",
@@ -102,9 +109,28 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 NormalizedEmail = "PESHO@GMAIL.COM",
 
             };
-            User.PasswordHash = hasher.HashPassword(User, "Pesho123");
 
+            Admin = new IdentityRole()
+            { 
+              Id = "c6c3988d-9285-4569-bb8a-9eff133165da",
+              Name = "Admin",
+              NormalizedName = "admin".ToUpper(),
+              ConcurrencyStamp = "c6c3988d-9285-4569-bb8a-9eff133165da"
+
+            };
+
+            Pesho.PasswordHash = hasher.HashPassword(Pesho, "Pesho123");
+
+
+            IdentityUserRole = new IdentityUserRole<string>()
+            {
+                RoleId= Admin.Id,
+                UserId = Pesho.Id,
+                
+            };
         }
+        
+     
         private void SeedBrands()
         {
             Nike = new Brand()
@@ -315,7 +341,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
             ProductItem4 = new ProductItem()
             {
-                Id =4,
+                Id = 4,
                 ProductImageId = ProductImage4.Id,
                 SizeId = M.Id,
                 Quantity = 80
@@ -328,19 +354,25 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             {
                 Id = 1,
                 CommentText = "I liked it very much",
-                ProductItemId = ProductItem1.Id,
+                ProductItemId = ProductItem4.Id,
+                UserId = Pesho.Id,
+                DateTime = DateTime.Now,
             };
             Comment2 = new Comment()
             {
                 Id = 2,
                 CommentText = "I liked it very much, but not that much",
                 ProductItemId = 2,
+                UserId = Pesho.Id,
+                DateTime = DateTime.Now,
             };
             Comment3 = new Comment()
             {
                 Id = 3,
                 CommentText = "Fuck this shit",
                 ProductItemId = 3,
+                UserId = Pesho.Id,
+                DateTime = DateTime.Now
             };
 
         }
@@ -349,7 +381,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             Order1 = new Order()
             {
                 Id = 1,
-                UserId = User.Id,
+                UserId = Pesho.Id,
                 ProductItemId = 1,
                 Quantity = 2,
                 DateWhenOrdered = DateTime.Now,

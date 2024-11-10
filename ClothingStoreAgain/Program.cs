@@ -18,18 +18,23 @@ namespace ClothingStoreAgain
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ClothingStoreDbContext>(options =>
                 options.UseSqlServer(connectionString));
+             
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => 
             { 
-                options.SignIn.RequireConfirmedAccount = false; 
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;  
                 options.Password.RequireUppercase = false;
-            })
-                .AddEntityFrameworkStores<ClothingStoreDbContext>();
+            }).AddRoles<IdentityRole>()
+             .AddEntityFrameworkStores<ClothingStoreDbContext>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IServiceProducts, ProductService>();
+            builder.Services.AddScoped<IAdminServices, AdminService>();
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddSession(options =>
@@ -58,6 +63,7 @@ namespace ClothingStoreAgain
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
 

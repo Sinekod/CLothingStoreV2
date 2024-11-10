@@ -4,6 +4,7 @@ using ClothingStore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClothingStoreAgain.Data.Migrations
 {
     [DbContext(typeof(ClothingStoreDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241106211315_AddedRoles")]
+    partial class AddedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,21 +157,12 @@ namespace ClothingStoreAgain.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ProductItemId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductItemId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
 
@@ -177,25 +171,19 @@ namespace ClothingStoreAgain.Data.Migrations
                         {
                             Id = 1,
                             CommentText = "I liked it very much",
-                            DateTime = new DateTime(2024, 11, 9, 19, 22, 42, 301, DateTimeKind.Local).AddTicks(4170),
-                            ProductItemId = 4,
-                            UserId = "e484920a-cb22-45bf-9ace-843a04361194"
+                            ProductItemId = 1
                         },
                         new
                         {
                             Id = 2,
                             CommentText = "I liked it very much, but not that much",
-                            DateTime = new DateTime(2024, 11, 9, 19, 22, 42, 301, DateTimeKind.Local).AddTicks(4207),
-                            ProductItemId = 2,
-                            UserId = "e484920a-cb22-45bf-9ace-843a04361194"
+                            ProductItemId = 2
                         },
                         new
                         {
                             Id = 3,
                             CommentText = "Fuck this shit",
-                            DateTime = new DateTime(2024, 11, 9, 19, 22, 42, 301, DateTimeKind.Local).AddTicks(4211),
-                            ProductItemId = 3,
-                            UserId = "e484920a-cb22-45bf-9ace-843a04361194"
+                            ProductItemId = 3
                         });
                 });
 
@@ -313,7 +301,7 @@ namespace ClothingStoreAgain.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateWhenOrdered = new DateTime(2024, 11, 9, 19, 22, 42, 571, DateTimeKind.Local).AddTicks(1665),
+                            DateWhenOrdered = new DateTime(2024, 11, 6, 23, 13, 14, 569, DateTimeKind.Local).AddTicks(4002),
                             ProductItemId = 1,
                             Quantity = 2,
                             Tottal = 0m,
@@ -709,15 +697,15 @@ namespace ClothingStoreAgain.Data.Migrations
                         {
                             Id = "e484920a-cb22-45bf-9ace-843a04361194",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de83556b-0253-418e-a21c-c1803b0456e6",
+                            ConcurrencyStamp = "5b6a84bc-2fcd-4291-b32f-85b1a4254f1b",
                             Email = "Pesho@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "PESHO@GMAIL.COM",
                             NormalizedUserName = "PESHO",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIkKpnu3v/ZyIoE3PZtagN500bNu37AsebIRQS2xc+xL5GPGFPywWeKmz81CRbXdOQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFx7imR8TPtiD610keMiNYNgJ7WfF6ubhtlhIOSXyUdn+MO92Uexw7MkrNzYTGdu1g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2d612a75-9f25-4d21-8681-3ce40e07db3c",
+                            SecurityStamp = "e4b82aa7-e030-4716-b971-a58a30800d64",
                             TwoFactorEnabled = false,
                             UserName = "Pesho"
                         });
@@ -834,15 +822,7 @@ namespace ClothingStoreAgain.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ProductItem");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClothingStore.Infrastructure.Data.Models.DeliveryToAddress", b =>

@@ -234,16 +234,57 @@ namespace ClothingStore.Core.Services
 
         }
 
-        //public async Task<PeginationModel<ProductImageViewModel>> Pegination(int genderId, int page, int pageSize)
-        //{
-        //    page = 1;
-        //    pageSize = 1;
-        //    var products = await GetAllProductGenders(genderId);
-        //    int count = products.Count();
-        //    products =  products.Skip((page - 1) * pageSize) .Take(pageSize).ToList();
-        //    var paginatedList = new PeginationModel<ProductImageViewModel>(products, count, page, pageSize);
+        public async Task<bool> CheckIfProductNameExists(string name) => await context.Products.AnyAsync(p => p.Name == name);
 
-        //    return paginatedList;
-        //}
+        public async Task<bool> CheckIfProductSizeExists(string name) => await context.Sizes.AnyAsync(p => p.Name == name);
+
+        public async Task<Size> GetSizeByName(string name) => await context.Sizes.FirstOrDefaultAsync(p => p.Name == name);
+
+        public async Task<bool> CheckCategoryExists(string category, int genderId) => await context.Categories.AnyAsync(c => c.CategoryName == category && c.GenderId == genderId);
+
+        public async Task<IEnumerable<GenderViewModel>> GetAllGenders()
+        {
+            return await context.Genders.Select(g => new GenderViewModel()
+            {
+                GenderName = g.Name,
+                Id = g.Id,
+            }).ToListAsync();
+
+
+        }
+
+        public async Task<IEnumerable<ColourViewModel>> GetAllColours()
+        {
+            return await context.Colours.Select(c => new ColourViewModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+            }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<CategoryViewModel>> GetAllCategories()
+        {
+            return await context.Categories.Select(c => new CategoryViewModel()
+            {
+                Id = c.Id,
+                Name = c.CategoryName
+
+            }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<BrandViewModel>> GetAllBrands()
+        {
+            return await context.Brands.Select(b => new BrandViewModel()
+            {
+                Id = b.Id,
+                Name = b.Name,
+
+            }).ToListAsync();
+        }
+
+        public async Task<bool> CheckColourExist(int id)=>await context.Colours.AnyAsync(c => c.Id == id);
+
+        public async Task<bool> CheckBrandExist(int id) => await context.Brands.AnyAsync(b=>b.Id==id);
+        
     }
 }

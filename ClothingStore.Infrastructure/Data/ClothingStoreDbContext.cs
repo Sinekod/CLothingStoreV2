@@ -1,5 +1,6 @@
 ﻿using ClothingStore.Infrastructure.Data.Models;
 using ClothingStore.Infrastructure.Data.SeededDb;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,8 @@ namespace ClothingStore.Infrastructure.Data
             builder.ApplyConfiguration(new ProductItemConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new SizeConfiguration());
-
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
             base.OnModelCreating(builder);
         }
 

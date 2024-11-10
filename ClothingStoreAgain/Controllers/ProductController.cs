@@ -70,12 +70,7 @@ namespace ClothingStoreAgain.Controllers
             return View(productDescription);
 
         }
-        public async Task<IActionResult> ApplyDetails([FromQuery] int id, [FromForm] FilterCriteria filterCriteria)
-        {
-            return null;
-            
-
-        }
+        
 
         public async Task<IActionResult> ApplyDetails([FromForm] FilterCriteria filterCriteria, int page)
         {
@@ -127,6 +122,6 @@ namespace ClothingStoreAgain.Controllers
             return View(nameof(ShowAllProductsById), filteredProducts);
 
         }
-
+     
     }
 }
