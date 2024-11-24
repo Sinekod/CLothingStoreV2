@@ -285,6 +285,16 @@ namespace ClothingStore.Core.Services
         public async Task<bool> CheckColourExist(int id)=>await context.Colours.AnyAsync(c => c.Id == id);
 
         public async Task<bool> CheckBrandExist(int id) => await context.Brands.AnyAsync(b=>b.Id==id);
-        
+
+        public async Task<ProductItem>? GetProductItem(int id) => await context.ProductItems.FirstOrDefaultAsync(p => p.Id == id);    
+      
+
+        public async Task<bool> CheckProductItem(int id) => await context.ProductImages.AnyAsync(p=>p.Id==id);
+
+        public async Task<Size> GetSizeById(int id) => await context.Sizes.FirstOrDefaultAsync(p => p.Id == id);
+
+
+        public async Task<Colour> GetColourById(int id) => await context.Colours.FirstOrDefaultAsync(p=>p.Id==id);
+      
     }
 }

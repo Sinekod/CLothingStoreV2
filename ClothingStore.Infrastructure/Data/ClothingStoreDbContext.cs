@@ -3,6 +3,7 @@ using ClothingStore.Infrastructure.Data.SeededDb;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace ClothingStore.Infrastructure.Data
 {
@@ -16,6 +17,12 @@ namespace ClothingStore.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Comment>()
+            .HasOne(c => c.ProductItem)
+            .WithMany(p => p.Comments)
+            .HasForeignKey(c => c.ProductItemId)
+            .OnDelete(DeleteBehavior.Restrict); // Adjust as needed
+
             builder.ApplyConfiguration(new BrandConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ColourConfiguration());

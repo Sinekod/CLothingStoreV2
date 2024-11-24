@@ -47,5 +47,14 @@ namespace ClothingStore.Core.Contracts
 
         public Task<bool> CheckBrandExist(int id);
 
+        public Task<ProductItem> GetProductItem(int id);
+
+        public Task<bool> CheckProductItem(int id);
+
+        public Task<Size> GetSizeById(int id);
+
+        public Task<Colour> GetColourById(int id);
+
+
     }
 }

@@ -103,12 +103,12 @@ namespace ClothingStoreAgain.Controllers
               
             if (user==null)
             {
-                return BadRequest("User not found");
+                return NotFound("User not found");
             }
             var roleExist = await roleManager.RoleExistsAsync(role);
             if (!roleExist)
             {
-                return BadRequest("Role does not exist");
+                return NotFound("Role does not exist");
 
             }
             var isInRole = await userManager.IsInRoleAsync(user,role);
@@ -121,8 +121,7 @@ namespace ClothingStoreAgain.Controllers
             return Ok(200);
 
         }
-
-
+       
 
 
 

@@ -1,0 +1,169 @@
+﻿@model IEnumerable<CommentViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Section</title>
+    <!-- Optional: Add link to Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ6V+4jC5Qepse65is5z1daB2Tqvfa6DkOIWv2x9uDoCZ9a37nD0ZIE5BLjC" crossorigin="anonymous">
+    <!-- FontAwesome for thumbs-up and star icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            
+        }
+
+        .second {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 15px;
+            padding-top:20px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .username-stars {
+            display: flex;
+            align-items: center;
+        }
+
+            .username-stars .stars {
+                color: #ffc107;
+                margin-left: 8px;
+            }
+
+        .stars .fa-star, .stars .fa-star-o {
+            font-size: 1.2rem;
+        }
+
+        .comment-date {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .comment-body {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .upvote-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .thumbup i {
+            margin-right: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px; /* Adds space between Edit and Delete buttons */
+            margin-left: auto; /* Pushes buttons to the right */
+        }
+
+            .action-buttons .btn {
+                font-size: 0.9rem;
+                padding: 0.25rem 0.75rem;
+            }
+
+            .action-buttons .btn-outline-primary {
+                color: #007bff;
+                border-color: #007bff;
+            }
+
+                .action-buttons .btn-outline-primary:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+            .action-buttons .btn-outline-danger {
+                color: #dc3545;
+                border-color: #dc3545;
+            }
+
+                .action-buttons .btn-outline-danger:hover {
+                    background-color: #dc3545;
+                    color: #fff;
+                }
+    </style>
+</head>
+<body>
+    <div class="container justify-content-center mt-5 border-left border-right">
+        <!-- Input field for adding notes -->
+       
+    </div>
+
+    <div>   
+        <!-- Notes list -->
+        @foreach (var item in Model)
+        {
+            <div class="second py-2 px-2">
+                <!-- Comment Header with Username, Avatar, and Rating -->
+                <div class="comment-header py-1 pt-2">
+                    <div class="username-stars d-flex align-items-center">
+
+                        <span class="text2 ms-2">@item.UserName</span>
+                        <div class="stars ms-2">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < item.Rating)
+                                {
+                                    <i class="fa fa-star"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star-o"></i>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="comment-date">
+                        @item.DateTime
+                    </div>
+                </div>
+
+                <!-- Comment Body -->
+                <div class="comment-body">
+                    <span class="text3">@item.Text</span>
+                </div>
+
+                <!-- Comment Footer with Upvote and Action Buttons -->
+                <div class="comment-footer">
+                    <div class="upvote-section">
+                        <span class="text3">Likes:</span>
+                        <span class="thumbup"><i class="fa fa-thumbs-o-up"></i></span>
+                        <span class="text4">@item.Likes</span>
+                    </div>
+
+                    <!-- Edit and Delete Buttons on the far right -->
+                    <div class="action-buttons">
+                        <a type="button" asp-controller="Comment" asp-route-commentId="@item.Id" asp-action="EditComment" class="btn    btn-outline-primary btn-sm">Edit</a>
+                       <a type="button"  asp-controller="Comment" asp-route-commentId="@item.Id" asp-action="DeleteComment" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Optional: Add Bootstrap JS for interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+   
+</body>
+</html>

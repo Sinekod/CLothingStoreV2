@@ -18,23 +18,25 @@ namespace ClothingStoreAgain
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ClothingStoreDbContext>(options =>
                 options.UseSqlServer(connectionString));
-             
+
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => 
-            { 
+            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;  
+                options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
             }).AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<ClothingStoreDbContext>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IServiceProducts, ProductService>();
             builder.Services.AddScoped<IAdminServices, AdminService>();
+            builder.Services.AddScoped<ICommentService, CommentService>();
+            builder.Services.AddScoped<IRoleManagerService, RoleService>();
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddSession(options =>
@@ -43,6 +45,14 @@ namespace ClothingStoreAgain
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+            });
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "Cart";
+                options.IdleTimeout = TimeSpan.FromHours(24);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+
             });
             var app = builder.Build();
 

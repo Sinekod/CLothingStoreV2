@@ -3,11 +3,13 @@ using ClothingStore.Core.Contracts;
 using ClothingStore.Core.Models;
 using ClothingStore.Infrastructure.Data;
 using ClothingStoreAgain.Extentions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using static ClothingStore.Core.Constants.Constants.PageConstants;
 namespace ClothingStoreAgain.Controllers
 {
+    [Authorize(Roles ="User,Admin")]
     public class ProductController : Controller
     {
         private readonly IServiceProducts products;

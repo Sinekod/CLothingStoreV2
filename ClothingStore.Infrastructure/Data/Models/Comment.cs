@@ -21,6 +21,10 @@ namespace ClothingStore.Infrastructure.Data.Models
         public string UserId { get; set; } = string.Empty;
 
         public DateTime DateTime { get; set; }
+
+        public int Likes { get; set; }
+
+        public int Rating { get; set; }
     }
 
 

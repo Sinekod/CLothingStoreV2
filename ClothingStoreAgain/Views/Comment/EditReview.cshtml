@@ -1,0 +1,98 @@
+﻿@model CommentViewModel
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Comment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .star-rating {
+            cursor: pointer;
+            color: #ddd;
+        }
+
+            .star-rating .fa-star {
+                font-size: 1.5rem;
+            }
+
+                .star-rating .fa-star.selected {
+                    color: #ffc107;
+                }
+
+        .comment-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .form-control.comment-box {
+            height: 100px;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container comment-container">
+        <h4 class="text-center">Submit a Comment</h4>
+
+        <!-- Form for Comment Submission -->
+        <form asp-action="EditComment" asp-controller="Comment" method="post">
+            <!-- Star Rating -->
+            <div class="star-rating d-flex justify-content-center my-3">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <i class="fa fa-star" data-rating="@i"></i>
+                }
+            </div>
+
+            <!-- Hidden input for Rating -->
+            <input type="hidden" asp-for="Rating" id="Rating" />
+
+            <!-- Comment Text Area -->
+            <textarea class="form-control comment-box mb-3" asp-for="Text" required>@Model.Text</textarea>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Edit review</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const stars = document.querySelectorAll('.star-rating .fa-star');
+            const ratingInput = document.getElementById("Rating");
+
+            // Function to update star display based on current rating
+            function updateStars(rating) {
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.add('selected');
+                    } else {
+                        star.classList.remove('selected');
+                    }
+                });
+            }
+
+            // Click event for each star
+            stars.forEach((star, index) => {
+                star.addEventListener('click', function () {
+                    const rating = index + 1; // Rating is 1-based, not 0-based
+                    ratingInput.value = rating; // Set hidden input value
+                    updateStars(rating); // Update the star display
+                });
+            });
+
+            // Set initial stars based on the existing model rating (for editing)
+            updateStars(parseInt(ratingInput.value) || 0);
+        });
+    </script>
+</body>
+</html>

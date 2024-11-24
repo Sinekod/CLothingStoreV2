@@ -29,6 +29,32 @@ namespace ClothingStoreAgain.Extentions
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
+        // Serialize and store a List<T> in the session
+        public static void SetList<T>(this ISession session, string key, List<T> value)
+        {
+            // Serialize the list to a JSON string
+            var jsonString = JsonConvert.SerializeObject(value);
+
+            // Store the serialized list in the session as a string
+            session.SetString(key, jsonString);
+        }
+
+        // Retrieve a List<T> from the session
+        public static List<T> GetList<T>(this ISession session, string key)
+        {
+            // Get the serialized list from the session
+            var jsonString = session.GetString(key);
+
+            // If the key doesn't exist in the session, return an empty list
+            if (jsonString == null)
+            {
+                return new List<T>();  // Return an empty list if no data is found
+            }
+
+            // Deserialize the JSON string back into a List<T>
+            return JsonConvert.DeserializeObject<List<T>>(jsonString);
+        }
+
 
     }
 }

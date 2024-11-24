@@ -357,6 +357,8 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 ProductItemId = ProductItem4.Id,
                 UserId = Pesho.Id,
                 DateTime = DateTime.Now,
+                Likes = 0,
+                Rating = 5,
             };
             Comment2 = new Comment()
             {
@@ -365,6 +367,8 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 ProductItemId = 2,
                 UserId = Pesho.Id,
                 DateTime = DateTime.Now,
+                Likes = 0,
+                Rating = 3,
             };
             Comment3 = new Comment()
             {
@@ -372,7 +376,9 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 CommentText = "Fuck this shit",
                 ProductItemId = 3,
                 UserId = Pesho.Id,
-                DateTime = DateTime.Now
+                DateTime = DateTime.Now,
+                Likes = 0,
+                Rating = 1,
             };
 
         }
@@ -385,7 +391,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
                 ProductItemId = 1,
                 Quantity = 2,
                 DateWhenOrdered = DateTime.Now,
-
+             
 
             };
 
