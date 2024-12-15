@@ -21,15 +21,18 @@ namespace ClothingStore.Infrastructure.Data.Models
 
         public IdentityUser User { get; set; } = null!;
 
-        public int ProductItemId { get; set; }
-        [ForeignKey(nameof(ProductItemId))]
-        public ProductItem ProductItem { get; set; } = null!;
         [Required]
-        public int Quantity { get; set; }
-        [Required]
-        public DateTime DateWhenOrdered { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Tottal { get; set; }
+        public DateTime OrderedDate { get; set; }
+      
+      
+        public string ShippimgAdress { get; set; } = string.Empty;
+
+        public string PaymentMethod { get; set; } = string.Empty;
+
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        public string City{ get; set; } =string.Empty;
+
 
         public ICollection<ProductItem> ProductItems { get; set; } = new List<ProductItem>();
     }

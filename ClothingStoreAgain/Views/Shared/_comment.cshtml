@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<CommentViewModel>
+@inject ICommentService comment
 
 <!DOCTYPE html>
 <html lang="en">
@@ -151,12 +152,15 @@
                         <span class="thumbup"><i class="fa fa-thumbs-o-up"></i></span>
                         <span class="text4">@item.Likes</span>
                     </div>
-
+                    @if (User.IsInRole("Admin")||await comment.CheckIfUserIsOwner(User.Identity.Name,item.Id))
+                    {
+                        <div class="action-buttons">
+                            <a type="button" asp-controller="Comment" asp-route-commentId="@item.Id" asp-action="EditComment" class="btn btn-outline-primary btn-sm">Edit</a>
+                            <a type="button" asp-controller="Comment" asp-route-commentId="@item.Id" asp-action="DeleteComment" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </div>
+                    }
                     <!-- Edit and Delete Buttons on the far right -->
-                    <div class="action-buttons">
-                        <a type="button" asp-controller="Comment" asp-route-commentId="@item.Id" asp-action="EditComment" class="btn    btn-outline-primary btn-sm">Edit</a>
-                       <a type="button"  asp-controller="Comment" asp-route-commentId="@item.Id" asp-action="DeleteComment" class="btn btn-outline-danger btn-sm">Delete</a>
-                    </div>
+                   
                 </div>
             </div>
         }

@@ -15,50 +15,55 @@ using System.Threading.Tasks;
 
 namespace ClothingStore.Core.Services
 {
-    
+
     public class CommentService : ICommentService
     {
         private readonly ClothingStoreDbContext context;
         private readonly IServiceProducts products;
-   
-        public CommentService(ClothingStoreDbContext context, IServiceProducts products)
+        private readonly UserManager<IdentityUser> userManager;
+        public CommentService(ClothingStoreDbContext context, IServiceProducts products, UserManager<IdentityUser> userManager)
         {
             this.context = context;
             this.products = products;
-  
+            this.userManager = userManager;
+
         }
 
-        public async Task<Comment> AddComment(CommentViewModel comment,int productId)
+        public async Task<Comment> AddComment(CommentViewModel comment, int productId)
         {
             var commentDatabase = new Comment()
             {
                 CommentText = comment.Text,
                 ProductItemId = productId,
-                Rating = comment.Rating,   
-                Likes  = comment.Likes,
+                Rating = comment.Rating,
+                Likes = comment.Likes,
                 DateTime = DateTime.Now,
             };
 
-            return  commentDatabase;
-            
+            return commentDatabase;
+
         }
 
-        public async Task<bool> CheckCommentExist(int commentId) =>await context.Comments.AnyAsync(c=>c.Id==commentId);
-       
+        public async Task<bool> CheckCommentExist(int commentId) => await context.Comments.AnyAsync(c => c.Id == commentId);
 
-        public async Task DeleteComment(int commentId,string username)
+        public async Task<bool> CheckIfUserIsOwner(string userName,int commentId)
+        {
+            var user = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            var comment = await context.Comments.FirstOrDefaultAsync(c=>c.Id==commentId&&c.UserId==user.Id);
+            if (comment is null)
+            {
+                return false;
+            }
+            return true;
+
+        }
+
+        public async Task DeleteComment(int commentId, string username)
         {
             var comment = await context.Comments.FirstOrDefaultAsync(c => c.Id == commentId && c.User.UserName == username);
 
             context.Comments.Remove(comment);
             context.SaveChanges();
-         
-        }
-
-        public Task EditComment(int commentId, string username)
-        {
-           return null;
-
 
         }
 
@@ -77,13 +82,14 @@ namespace ClothingStore.Core.Services
                     Likes = p.Likes,
                     Rating = p.Rating
 
-                }).ToListAsync();   
-                       
-          return comments;
+                }).ToListAsync();
+
+            return comments;
 
 
         }
 
-    
+
+
     }
 }

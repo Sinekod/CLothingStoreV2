@@ -1,18 +1,14 @@
 ﻿using ClothingStore.Core.Contracts;
 using ClothingStore.Core.Models;
-using ClothingStore.Core.Services;
 using ClothingStore.Infrastructure.Data;
-using ClothingStore.Infrastructure.Data.Models;
 using ClothingStoreAgain.Extentions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Evaluation;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.DotNet.Scaffolding.Shared.Project;
 
 namespace ClothingStoreAgain.Controllers
 {
-    
+    [Authorize(Roles = "Admin,User")]
     public class CartController : Controller
     {
         private readonly IServiceProducts products;
@@ -63,11 +59,12 @@ namespace ClothingStoreAgain.Controllers
         }
         public async Task<IActionResult> ShowCart()
         {
-            var products = HttpContext.Session.GetList<CartProductViewModel>("Cart");
+            var products = HttpContext.Session.GetList<CartProductViewModel>("Cart"); 
+
             return View("CartVisualistion", products);
 
         }
-        public async Task<IActionResult> Deleteproduct(int productId)
+        public async Task<IActionResult> DeleteProduct(int productId)
         {  
             var cart = HttpContext.Session.GetList<CartProductViewModel>("Cart");
             if (!cart.Any(p=>p.Id==productId))
@@ -79,10 +76,10 @@ namespace ClothingStoreAgain.Controllers
             {
                 var product = cart.FirstOrDefault(p=>p.Id==productId);
                 cart.Remove(product);
-                
+                HttpContext.Session.SetList("Cart", cart);
             }
 
-            return View();
+            return RedirectToAction(nameof(ShowCart));
 
         }
 

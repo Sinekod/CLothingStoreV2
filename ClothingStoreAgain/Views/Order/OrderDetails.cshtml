@@ -1,0 +1,37 @@
+﻿@model OrderViewModel
+
+<div class="container mt-5">
+    <h2>Order Details</h2>
+    <form asp-action="OrderDetails" method="post" asp-controller="Order">
+        <div class="mb-3">
+            <label asp-for="City" class="form-label">City</label>
+            <input asp-for="City" class="form-control" placeholder="Enter your city" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+            <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ShippingAddress" class="form-label">Shipping Address</label>
+            <textarea asp-for="ShippingAddress" class="form-control" rows="3" placeholder="Enter your shipping address"></textarea>
+            <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
+            <select asp-for="PaymentMethod" class="form-control">
+                <option value="" disabled selected>Select a payment method</option>
+                <option value="pay-on-spot">Pay on Spot</option>
+                <option value="card">Card</option>
+            </select>
+            <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Order</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+ 

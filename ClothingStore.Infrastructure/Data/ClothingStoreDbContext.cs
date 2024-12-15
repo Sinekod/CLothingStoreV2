@@ -21,15 +21,15 @@ namespace ClothingStore.Infrastructure.Data
             .HasOne(c => c.ProductItem)
             .WithMany(p => p.Comments)
             .HasForeignKey(c => c.ProductItemId)
-            .OnDelete(DeleteBehavior.Restrict); // Adjust as needed
+            .OnDelete(DeleteBehavior.Restrict);
 
             builder.ApplyConfiguration(new BrandConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ColourConfiguration());
             builder.ApplyConfiguration(new CommentConfiguration());
-            builder.ApplyConfiguration(new DeliveryToAddressConfiguration());
+
             builder.ApplyConfiguration(new GenderConfiguration());
-            builder.ApplyConfiguration(new OrderConfiguration());
+
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new ProductImageConfiguration());
             builder.ApplyConfiguration(new ProductItemConfiguration());
@@ -45,7 +45,7 @@ namespace ClothingStore.Infrastructure.Data
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Colour> Colours { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<DeliveryToAddress> DeliveryToAddresses { get; set; }
+
         public virtual DbSet<Gender> Genders { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
@@ -54,7 +54,7 @@ namespace ClothingStore.Infrastructure.Data
 
         public virtual DbSet<Size> Sizes { get; set; }
 
-
+        public virtual DbSet<OrderItems> OrderItems { get; set; }
 
 
 

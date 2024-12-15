@@ -37,6 +37,7 @@ namespace ClothingStoreAgain
             builder.Services.AddScoped<IAdminServices, AdminService>();
             builder.Services.AddScoped<ICommentService, CommentService>();
             builder.Services.AddScoped<IRoleManagerService, RoleService>();
+            builder.Services.AddScoped<IOrderService, OrderServices>();
             builder.Services.AddDistributedMemoryCache();
 
             builder.Services.AddSession(options =>

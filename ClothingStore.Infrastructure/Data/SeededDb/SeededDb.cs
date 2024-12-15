@@ -23,8 +23,8 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             SeedProductPictures();
             SeedProductItems();
             SeedComment();
-            SeedOrers();
-            DeliveryToAddress();
+        
+            
         }
 
         public IdentityRole Admin { get; set; }
@@ -59,20 +59,14 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
 
         public Colour Red { get; set; }
 
-
         public Comment Comment1 { get; set; }
         public Comment Comment2 { get; set; }
 
         public Comment Comment3 { get; set; }
 
-        public DeliveryToAddress DeliveryToAddress1 { get; set; }
-
         public Gender Male { get; set; }
 
         public Gender Female { get; set; }
-
-        public Order Order1 { get; set; }
-
 
         public Product Product4 { get; set; }
 
@@ -94,6 +88,7 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
         public ProductItem ProductItem2 { get; set; }
 
         public ProductItem ProductItem3 { get; set; }
+        
 
         public ProductItem ProductItem4 { get; set; }
 
@@ -382,36 +377,8 @@ namespace ClothingStore.Infrastructure.Data.SeededDb
             };
 
         }
-        private void SeedOrers()
-        {
-            Order1 = new Order()
-            {
-                Id = 1,
-                UserId = Pesho.Id,
-                ProductItemId = 1,
-                Quantity = 2,
-                DateWhenOrdered = DateTime.Now,
-             
-
-            };
-
-        }
-        private void DeliveryToAddress()
-        {
-            DeliveryToAddress1 = new DeliveryToAddress()
-            {
-                Id = 1,
-                CityName = "Sofia",
-                PhoneNumber = "089 236 7845",
-                Number = 5,
-                StreetName = "Ivan Vazov",
-                OrderId = Order1.Id,
-
-
-            };
-
-
-        }
+       
+        
 
 
         private void SeedSizes()
