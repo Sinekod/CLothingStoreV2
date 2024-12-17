@@ -12,7 +12,6 @@ namespace ClothingStore.Infrastructure.Data
         public ClothingStoreDbContext(DbContextOptions<ClothingStoreDbContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

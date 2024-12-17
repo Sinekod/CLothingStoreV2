@@ -1,4 +1,3 @@
-
 using ClothingStore.Core.Contracts;
 using ClothingStore.Core.Services;
 using ClothingStore.Infrastructure.Data;
@@ -19,7 +18,6 @@ namespace ClothingStoreAgain
             builder.Services.AddDbContext<ClothingStoreDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
@@ -32,6 +30,7 @@ namespace ClothingStoreAgain
                 options.Password.RequireUppercase = false;
             }).AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<ClothingStoreDbContext>();
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IServiceProducts, ProductService>();
             builder.Services.AddScoped<IAdminServices, AdminService>();
@@ -42,19 +41,12 @@ namespace ClothingStoreAgain
 
             builder.Services.AddSession(options =>
             {
-                options.Cookie.Name = "GenderId";
+                options.Cookie.Name = "SessionCookie";
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            builder.Services.AddSession(options =>
-            {
-                options.Cookie.Name = "Cart";
-                options.IdleTimeout = TimeSpan.FromHours(24);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
 
-            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -64,8 +56,13 @@ namespace ClothingStoreAgain
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // Global exception handler for unhandled exceptions (500 errors)
+                app.UseExceptionHandler("/Error/500");
+
+                // Handle specific status codes like 404, 403, etc.
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+
+                // Enable HSTS for production
                 app.UseHsts();
             }
 
@@ -73,15 +70,43 @@ namespace ClothingStoreAgain
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next(); // Process request
+                }
+                catch (Exception)
+                {
+                    context.Response.Redirect("/Error/500");
+                }
+
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Response.Redirect("/Error/404");
+                }
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
+             
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "admin",
+                    pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
+            });
 
             app.Run();
         }

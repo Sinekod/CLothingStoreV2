@@ -1,24 +1,22 @@
 ﻿using ClothingStore.Core.Contracts;
 using ClothingStore.Core.Models;
-using ClothingStore.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Configuration.Internal;
-using System.Diagnostics;
 
-namespace ClothingStoreAgain.Controllers
+namespace ClothingStoreAgain.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IServiceProducts products;
         private readonly IAdminServices adminService;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
-      
+
         public AdminController(IServiceProducts _products, IAdminServices _adminServices,
-            UserManager<IdentityUser> _userManager,RoleManager<IdentityRole> _roleManager)
+            UserManager<IdentityUser> _userManager, RoleManager<IdentityRole> _roleManager)
         {
             products = _products;
             adminService = _adminServices;
@@ -38,7 +36,7 @@ namespace ClothingStoreAgain.Controllers
                 Colours = await products.GetAllColours(),
                 Categories = await products.GetAllCategories(),
 
-            };
+            };              
             return View(product);
 
         }
@@ -96,12 +94,12 @@ namespace ClothingStoreAgain.Controllers
 
 
         }
-        
-        public async Task<IActionResult> PromotePeople(string username,string role)
+
+        public async Task<IActionResult> PromotePeople(string username, string role)
         {
             var user = await userManager.FindByNameAsync(username);
-              
-            if (user==null)
+
+            if (user == null)
             {
                 return NotFound("User not found");
             }
@@ -111,17 +109,17 @@ namespace ClothingStoreAgain.Controllers
                 return NotFound("Role does not exist");
 
             }
-            var isInRole = await userManager.IsInRoleAsync(user,role);
+            var isInRole = await userManager.IsInRoleAsync(user, role);
             if (isInRole)
             {
                 return BadRequest("User is in Role");
             }
-            await userManager.AddToRoleAsync(user,role);
+            await userManager.AddToRoleAsync(user, role);
 
             return Ok(200);
 
         }
-       
+
 
 
 

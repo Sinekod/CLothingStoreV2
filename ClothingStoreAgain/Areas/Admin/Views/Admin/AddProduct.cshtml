@@ -1,4 +1,5 @@
-﻿@model ProductAddForm
+﻿
+@model ProductAddForm
 
 @{
     ViewData["Title"] = "Add Product";
@@ -7,30 +8,30 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center py-4">
                     <h4 class="mb-0">Add New Product</h4>
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" asp-action="AddProduct">
                         @* Product Name *@
                         <div class="mb-3">
-                            <label asp-for="Name" class="form-label"></label>
-                            <input asp-for="Name" class="form-control" />
+                            <label asp-for="Name" class="form-label">Product Name</label>
+                            <input asp-for="Name" class="form-control shadow-sm" placeholder="Enter product name" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
 
                         @* Description *@
                         <div class="mb-3">
-                            <label asp-for="Description" class="form-label"></label>
-                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <label asp-for="Description" class="form-label">Product Description</label>
+                            <textarea asp-for="Description" class="form-control shadow-sm" rows="4" placeholder="Enter a brief description"></textarea>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
                         @* Gender Dropdown *@
                         <div class="mb-3">
                             <label asp-for="Genders" class="form-label">Gender</label>
-                            <select asp-for="GenderId" class="form-select">
+                            <select asp-for="GenderId" class="form-select shadow-sm">
                                 <option value="">Select Gender</option>
                                 @foreach (var gender in Model.Genders)
                                 {
@@ -43,7 +44,7 @@
                         @* Category Dropdown *@
                         <div class="mb-3">
                             <label asp-for="Categories" class="form-label">Category</label>
-                            <select asp-for="CategoryName" class="form-select">
+                            <select asp-for="CategoryName" class="form-select shadow-sm">
                                 <option value="">Select Category</option>
                                 @foreach (var category in Model.Categories)
                                 {
@@ -56,7 +57,7 @@
                         @* Brand Dropdown *@
                         <div class="mb-3">
                             <label asp-for="Brands" class="form-label">Brand</label>
-                            <select asp-for="BrandId" class="form-select">
+                            <select asp-for="BrandId" class="form-select shadow-sm">
                                 <option value="">Select Brand</option>
                                 @foreach (var brand in Model.Brands)
                                 {
@@ -69,7 +70,7 @@
                         @* Colour Dropdown *@
                         <div class="mb-3">
                             <label asp-for="Colours" class="form-label">Colour</label>
-                            <select asp-for="ColourId" class="form-select">
+                            <select asp-for="ColourId" class="form-select shadow-sm">
                                 <option value="">Select Colour</option>
                                 @foreach (var colour in Model.Colours)
                                 {
@@ -81,36 +82,35 @@
 
                         @* Price *@
                         <div class="mb-3">
-                            <label asp-for="Price" class="form-label"></label>
-                            <input asp-for="Price" class="form-control" />
+                            <label asp-for="Price" class="form-label">Price</label>
+                            <input asp-for="Price" class="form-control shadow-sm" type="number" placeholder="Enter price" />
                             <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
 
                         @* Size *@
                         <div class="mb-3">
-                            <label asp-for="Size" class="form-label"></label>
-                            <input asp-for="Size" class="form-control" />
+                            <label asp-for="Size" class="form-label">Size</label>
+                            <input asp-for="Size" class="form-control shadow-sm" placeholder="Enter size" />
                             <span asp-validation-for="Size" class="text-danger"></span>
                         </div>
 
                         @* Quantity *@
                         <div class="mb-3">
-                            <label asp-for="Quantity" class="form-label"></label>
-                            <input asp-for="Quantity" class="form-control" />
+                            <label asp-for="Quantity" class="form-label">Quantity</label>
+                            <input asp-for="Quantity" class="form-control shadow-sm" type="number" placeholder="Enter quantity" />
                             <span asp-validation-for="Quantity" class="text-danger"></span>
                         </div>
 
                         @* Image Upload *@
                         <div class="mb-3">
                             <label asp-for="Image" class="form-label">Upload Product Image</label>
-                            <input asp-for="Image" class="form-control" type="file" name="image" accept="image/*" />
+                            <input asp-for="Image" class="form-control shadow-sm" type="file" name="image" accept="image/*" />
                             <span asp-validation-for="Image" class="text-danger"></span>
-
                         </div>
 
                         @* Submit Button *@
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-success btn-lg">
                                 <i class="bi bi-save"></i> Save Product
                             </button>
                         </div>
