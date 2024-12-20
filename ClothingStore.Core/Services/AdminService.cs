@@ -23,6 +23,22 @@ namespace ClothingStore.Core.Services
             context = _context;
         }
 
+        public async Task AddBrand(string brandName)
+        {
+            var colour = new Brand() { Name = brandName };
+
+            await context.Brands.AddAsync(colour);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AddColour(string colourName)
+        {
+            var colour = new Colour() { Name = colourName };
+
+            await context.Colours.AddAsync(colour);
+           await context.SaveChangesAsync();
+        }
+
         public async Task AddProductToDatabase(ProductAddForm product)
         {
             Category category = new Category();
@@ -93,5 +109,19 @@ namespace ClothingStore.Core.Services
 
 
         }
+        public async Task DeleteProduct(int productId)
+        {
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            var productImages = await context.ProductImages.Where(p => p.ProductId == productId).ToListAsync();
+            var productItems = await context.ProductItems.Where(p => p.ProductImage.ProductId == productId).ToListAsync();
+
+            context.ProductItems.RemoveRange(productItems);
+            context.ProductImages.RemoveRange(productImages);
+            context.Products.Remove(product);
+
+            await context.SaveChangesAsync();
+
+        }
+        
     }
 }

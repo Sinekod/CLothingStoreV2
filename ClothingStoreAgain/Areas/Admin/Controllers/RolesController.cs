@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClothingStoreAgain.Controllers
+namespace ClothingStoreAgain.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly IRoleManagerService roleManagerService;
@@ -16,11 +17,11 @@ namespace ClothingStoreAgain.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRole([FromForm]string roleName)
-        { 
-          var created = await roleManagerService.CreateRole(roleName);
+        public async Task<IActionResult> AddRole([FromForm] string roleName)
+        {
+            var created = await roleManagerService.CreateRole(roleName);
 
-            if (created==false)
+            if (created == false)
             {
                 return BadRequest("Role already exists");
             }
@@ -29,10 +30,10 @@ namespace ClothingStoreAgain.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> AddRole() 
+        public async Task<IActionResult> AddRole()
         {
             return View();
-        
+
         }
         [HttpPost]
         public async Task<IActionResult> DeleteRole([FromForm] string roleName)

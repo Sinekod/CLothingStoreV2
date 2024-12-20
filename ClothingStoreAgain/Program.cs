@@ -39,7 +39,7 @@ namespace ClothingStoreAgain
             builder.Services.AddScoped<IOrderService, OrderServices>();
             builder.Services.AddDistributedMemoryCache();
 
-            builder.Services.AddSession(options =>
+            builder.Services.AddSession(options => 
             {
                 options.Cookie.Name = "SessionCookie";
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -100,6 +100,12 @@ namespace ClothingStoreAgain
                 endpoints.MapControllerRoute(
                     name: "admin",
                     pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                name: "admin",
+                  
+                    pattern: "Admin/{controller=Roles}/{action=Index}/{id?}");
+
 
                 endpoints.MapControllerRoute(
                     name: "default",

@@ -96,14 +96,14 @@ namespace ClothingStore.Core.Services
 
         public async Task<IEnumerable<ProductImageViewModel>> GetAllProductGenders(int? genderId)
         {
-            var products = await GetAllProductsAsync();
+            var products = await GetAllProductsImageAsync();
 
             return products.Where(p => p.GenderId == genderId).ToList();
 
 
         }
 
-        public async Task<IEnumerable<ProductImageViewModel>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductImageViewModel>> GetAllProductsImageAsync()
         {
             return await context.ProductImages.Select(p => new ProductImageViewModel
             {
@@ -289,12 +289,25 @@ namespace ClothingStore.Core.Services
         public async Task<ProductItem>? GetProductItem(int id) => await context.ProductItems.FirstOrDefaultAsync(p => p.Id == id);    
       
 
-        public async Task<bool> CheckProductItem(int id) => await context.ProductImages.AnyAsync(p=>p.Id==id);
+        public async Task<bool> CheckProductItem(int id) => await context.ProductItems.AnyAsync(p=>p.Id==id);
 
         public async Task<Size> GetSizeById(int id) => await context.Sizes.FirstOrDefaultAsync(p => p.Id == id);
 
 
         public async Task<Colour> GetColourById(int id) => await context.Colours.FirstOrDefaultAsync(p=>p.Id==id);
-      
+
+   
+
+        public async Task<List<ProductImageViewModel>> GetAllProducts()
+        {
+              return await context.Products.Select(p=> new ProductImageViewModel 
+            {
+              Name = p.Name,
+              Id = p.Id,
+            
+            }).ToListAsync();
+        }
+
+     
     }
 }

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ProductImageViewModel>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Dropdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Select a Product</h1>
+    <form method="post" asp-area="Admin" asp-controller="Admin" asp-action="DeleteProduct">
+        <label for="product-dropdown">Available Products:</label>
+        <select id="product-dropdown" name="productId">
+            @foreach (var product in Model)
+            {
+                <option value="@product.Id">@product.Name</option>
+            }
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

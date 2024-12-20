@@ -10,7 +10,7 @@ namespace ClothingStore.Core.Contracts
 {
     public interface IServiceProducts
     {
-        public Task<IEnumerable<ProductImageViewModel>> GetAllProductsAsync();
+        public Task<IEnumerable<ProductImageViewModel>> GetAllProductsImageAsync();
 
         public Task<ProductItemViewModel> ShowDetails(int id);
 
@@ -26,14 +26,14 @@ namespace ClothingStore.Core.Contracts
 
         public Task<FilterCriteria> GetAllAvailableCriteriaForProducts(int genderId);
 
-        public Task<List<ProductImageViewModel>> FilteredProducts(int? genderId,FilterCriteria? filter);
+        public Task<List<ProductImageViewModel>> FilteredProducts(int? genderId, FilterCriteria? filter);
 
         public Task<bool> CheckIfProductNameExists(string name);
         public Task<bool> CheckIfProductSizeExists(string name);
 
         public Task<Size> GetSizeByName(string name);
 
-        public Task<bool> CheckCategoryExists(string category,int genderId);
+        public Task<bool> CheckCategoryExists(string category, int genderId);
 
         public Task<IEnumerable<GenderViewModel>> GetAllGenders();
 
@@ -55,6 +55,7 @@ namespace ClothingStore.Core.Contracts
 
         public Task<Colour> GetColourById(int id);
 
+       public Task<List<ProductImageViewModel>> GetAllProducts();
 
     }
 }

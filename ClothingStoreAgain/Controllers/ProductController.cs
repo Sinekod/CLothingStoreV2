@@ -73,7 +73,6 @@ namespace ClothingStoreAgain.Controllers
 
         }
         
-
         public async Task<IActionResult> ApplyDetails([FromForm] FilterCriteria filterCriteria, int page)
         {
             int? Idgender = HttpContext.Session.GetInt32("genderId");

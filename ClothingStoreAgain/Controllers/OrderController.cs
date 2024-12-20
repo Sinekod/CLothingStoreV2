@@ -3,6 +3,7 @@ using ClothingStore.Core.Models;
 using ClothingStore.Infrastructure.Data;
 using ClothingStore.Infrastructure.Data.Models;
 using ClothingStoreAgain.Extentions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using System.Drawing.Printing;
 
 namespace ClothingStoreAgain.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
     public class OrderController : Controller
     {
         private readonly ClothingStoreDbContext context;

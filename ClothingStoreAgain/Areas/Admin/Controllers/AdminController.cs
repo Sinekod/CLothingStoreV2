@@ -1,8 +1,10 @@
 ﻿using ClothingStore.Core.Contracts;
 using ClothingStore.Core.Models;
+using ClothingStore.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClothingStoreAgain.Areas.Admin.Controllers
 {
@@ -14,14 +16,16 @@ namespace ClothingStoreAgain.Areas.Admin.Controllers
         private readonly IAdminServices adminService;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ClothingStoreDbContext context;
 
         public AdminController(IServiceProducts _products, IAdminServices _adminServices,
-            UserManager<IdentityUser> _userManager, RoleManager<IdentityRole> _roleManager)
+            UserManager<IdentityUser> _userManager, RoleManager<IdentityRole> _roleManager, ClothingStoreDbContext _context)
         {
             products = _products;
             adminService = _adminServices;
             roleManager = _roleManager;
             userManager = _userManager;
+            this.context = _context;
         }
 
 
@@ -36,7 +40,7 @@ namespace ClothingStoreAgain.Areas.Admin.Controllers
                 Colours = await products.GetAllColours(),
                 Categories = await products.GetAllCategories(),
 
-            };              
+            };
             return View(product);
 
         }
@@ -119,10 +123,82 @@ namespace ClothingStoreAgain.Areas.Admin.Controllers
             return Ok(200);
 
         }
+        [HttpGet]
+        public async Task<IActionResult> DeleteProduct()
+        {
+            var getAllProduct = await products.GetAllProducts();
+
+            return View("DeleteProduct", getAllProduct);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct([FromForm] int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest();
+            }
+            if (!await products.CheckProductExist(productId))
+            {
+                return BadRequest();
+            }
+            await adminService.DeleteProduct(productId);
+            return View("DelettoinSuccesful");
 
 
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> ADdColour()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddColour([FromForm]string colourName)
+        {
+           
 
+            if (string.IsNullOrEmpty(colourName))
+            {
+                return BadRequest();
+
+            }
+            var colour = await context.Colours.FirstOrDefaultAsync(c => c.Name == colourName);
+            if (colour is not null)
+            {
+                return BadRequest("ColourAlreadyExist");
+            }
+
+           await adminService.AddColour(colourName);
+
+            return View("ColourAddedSucesfully");
+
+
+        }
+        public async Task<IActionResult> AddBrand()
+        {
+            return View("AddBrand");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Addbrand([FromForm] string brandName)
+        {
+            if (string.IsNullOrEmpty(brandName))
+            {
+                return BadRequest();
+
+            }
+            var colour = await context.Brands.FirstOrDefaultAsync(c => c.Name == brandName);
+            if (colour is not null)
+            {
+                return BadRequest("Brand Already Exist");
+            }
+
+            await adminService.AddBrand(brandName);
+
+            return View("BrandAddedSuccessfuly");
+
+
+        }
 
 
 

@@ -8,6 +8,12 @@ namespace ClothingStore.Core.Contracts
     {
         public Task AddProductToDatabase(ProductAddForm product);
 
+        public Task DeleteProduct(int productId);
+
+        public Task AddColour(string colourName);
+
+
+        public Task AddBrand(string brandName);
 
     }
 }

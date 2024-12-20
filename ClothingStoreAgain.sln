@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothingStore.Core", "Cloth
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothingStore.Infrastructure", "ClothingStore.Infrastructure\ClothingStore.Infrastructure.csproj", "{3419B6B5-412D-458F-81F7-DDC02B5A4195}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothingStoreAgainTest", "ClothingStoreAgainTest\ClothingStoreAgainTest.csproj", "{1B1EFD76-3117-4851-811B-2114BD430E70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothingStoreTestingAgain", "ClothingStoreTestingAgain\ClothingStoreTestingAgain.csproj", "{AFDE8965-D541-48B0-9BE3-8C1DF454E4C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{3419B6B5-412D-458F-81F7-DDC02B5A4195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3419B6B5-412D-458F-81F7-DDC02B5A4195}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3419B6B5-412D-458F-81F7-DDC02B5A4195}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B1EFD76-3117-4851-811B-2114BD430E70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B1EFD76-3117-4851-811B-2114BD430E70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B1EFD76-3117-4851-811B-2114BD430E70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B1EFD76-3117-4851-811B-2114BD430E70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFDE8965-D541-48B0-9BE3-8C1DF454E4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFDE8965-D541-48B0-9BE3-8C1DF454E4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFDE8965-D541-48B0-9BE3-8C1DF454E4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFDE8965-D541-48B0-9BE3-8C1DF454E4C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
