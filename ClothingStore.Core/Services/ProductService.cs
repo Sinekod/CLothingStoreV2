@@ -264,12 +264,15 @@ namespace ClothingStore.Core.Services
 
         public async Task<IEnumerable<CategoryViewModel>> GetAllCategories()
         {
-            return await context.Categories.Select(c => new CategoryViewModel()
-            {
-                Id = c.Id,
-                Name = c.CategoryName
+            return await context.Categories
+           .GroupBy(c => c.CategoryName)
+           .Select(g => new CategoryViewModel
+           {
+             Id = g.First().Id, // Use the Id of the first item in the group
+             Name = g.Key       // The grouped property (CategoryName)
+          })
+           .ToListAsync();
 
-            }).ToListAsync();
         }
 
         public async Task<IEnumerable<BrandViewModel>> GetAllBrands()
@@ -282,32 +285,32 @@ namespace ClothingStore.Core.Services
             }).ToListAsync();
         }
 
-        public async Task<bool> CheckColourExist(int id)=>await context.Colours.AnyAsync(c => c.Id == id);
+        public async Task<bool> CheckColourExist(int id) => await context.Colours.AnyAsync(c => c.Id == id);
 
-        public async Task<bool> CheckBrandExist(int id) => await context.Brands.AnyAsync(b=>b.Id==id);
+        public async Task<bool> CheckBrandExist(int id) => await context.Brands.AnyAsync(b => b.Id == id);
 
-        public async Task<ProductItem>? GetProductItem(int id) => await context.ProductItems.FirstOrDefaultAsync(p => p.Id == id);    
-      
+        public async Task<ProductItem>? GetProductItem(int id) => await context.ProductItems.FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<bool> CheckProductItem(int id) => await context.ProductItems.AnyAsync(p=>p.Id==id);
+
+        public async Task<bool> CheckProductItem(int id) => await context.ProductItems.AnyAsync(p => p.Id == id);
 
         public async Task<Size> GetSizeById(int id) => await context.Sizes.FirstOrDefaultAsync(p => p.Id == id);
 
 
-        public async Task<Colour> GetColourById(int id) => await context.Colours.FirstOrDefaultAsync(p=>p.Id==id);
+        public async Task<Colour> GetColourById(int id) => await context.Colours.FirstOrDefaultAsync(p => p.Id == id);
 
-   
+
 
         public async Task<List<ProductImageViewModel>> GetAllProducts()
         {
-              return await context.Products.Select(p=> new ProductImageViewModel 
+            return await context.Products.Select(p => new ProductImageViewModel
             {
-              Name = p.Name,
-              Id = p.Id,
-            
+                Name = p.Name,
+                Id = p.Id,
+
             }).ToListAsync();
         }
 
-     
+
     }
 }

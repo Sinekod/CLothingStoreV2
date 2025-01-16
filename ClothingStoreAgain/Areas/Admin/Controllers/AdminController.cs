@@ -39,7 +39,7 @@ namespace ClothingStoreAgain.Areas.Admin.Controllers
                 Brands = await products.GetAllBrands(),
                 Colours = await products.GetAllColours(),
                 Categories = await products.GetAllCategories(),
-
+                 
             };
             return View(product);
 
@@ -85,7 +85,8 @@ namespace ClothingStoreAgain.Areas.Admin.Controllers
                 product.Image = ConvertImagesToBytes(image).Result;
                 await adminService.AddProductToDatabase(product);
             }
-            return View();
+            ViewData["ProductName"] = product.Name;
+            return View("ProductAddedSuccessfully");
         }
 
         private async Task<byte[]> ConvertImagesToBytes(IFormFile image)
